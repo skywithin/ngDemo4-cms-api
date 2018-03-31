@@ -9,4 +9,6 @@
 
 3. Create in-memory database with seeded values
 
-
+4. Create PagesController
+   // GET api/pages
+   // GET api/pages/slug
