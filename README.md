@@ -7,6 +7,6 @@
 
 2. Add Models & Data context
 
-
+3. Create in-memory database with seeded values
 
 
