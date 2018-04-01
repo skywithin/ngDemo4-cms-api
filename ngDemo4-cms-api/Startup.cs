@@ -16,6 +16,8 @@ namespace ngDemo4_cms_api
 {
     public class Startup
     {
+        readonly string CustomPolicyName = "AllowAll";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,6 +28,11 @@ namespace ngDemo4_cms_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy(CustomPolicyName, 
+                p => p.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader()));
+
             // Use in-memony database
             services.AddDbContext<CmsApiContext>(opt => opt.UseInMemoryDatabase("CmsDb"));
             services.AddMvc();
@@ -34,6 +41,8 @@ namespace ngDemo4_cms_api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors(CustomPolicyName);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -49,7 +58,7 @@ namespace ngDemo4_cms_api
         }
 
         /// <summary>
-        /// Populate initial values for in0memory database
+        /// Populate initial values for in-memory database
         /// </summary>
         /// <param name="context"></param>
         private static void SeedData(CmsApiContext context)
