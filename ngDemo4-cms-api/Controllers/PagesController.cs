@@ -37,5 +37,26 @@ namespace ngDemo4_cms_api.Controllers
             }
             return Json(page);
         }
+
+        // POST api/pages/create
+        [HttpPost("create")]
+        public IActionResult Create([FromBody] Page page)
+        {
+            page.Slug = page.Title.Replace(" ", "-").ToLower();
+            page.HasSidebar = page.HasSidebar ?? "no";
+
+            var existingSlug = _context.Pages.FirstOrDefault(p => p.Slug == page.Slug);
+            if(existingSlug != null)
+            {
+                return Json("pageExists");
+            }
+            else
+            {
+                _context.Pages.Add(page);
+                _context.SaveChanges();
+
+                return Json("ok");
+            }
+        }
     }
 }
