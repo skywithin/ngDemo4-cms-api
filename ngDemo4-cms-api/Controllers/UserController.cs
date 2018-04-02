@@ -35,5 +35,24 @@ namespace ngDemo4_cms_api.Controllers
                 return Json("ok");
             }
         }
+
+        // POST api/user/login
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] User user)
+        {
+            var existingUser = _context.Users.FirstOrDefault(
+                u => 
+                    u.Username == user.Username &&
+                    u.Password == user.Password);
+
+            if (existingUser != null)
+            {
+                return Json(user.Username);
+            }
+            else
+            {
+                return Json("invalidLogin");
+            }
+        }
     }
 }

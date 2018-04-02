@@ -92,14 +92,16 @@ namespace ngDemo4_cms_api
             context.Sidebar.Add(sidebar);
             context.SaveChanges();
 
-            // Populate Sidebar table
-            var user = new User
+            // Populate User table
+            var users = new User[]
             {
-                Username = "admin",
-                Password = "pass",
-                IsAdmin = "yes"
+                new User { Username = "admin", Password = "admin", IsAdmin = "yes" },
+                new User { Username = "test", Password = "test", IsAdmin = "no" },
             };
-            context.Users.Add(user);
+            foreach (var u in users)
+            {
+                context.Users.Add(u);
+            }
             context.SaveChanges();
         }
     }
