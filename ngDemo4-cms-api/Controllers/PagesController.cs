@@ -96,5 +96,17 @@ namespace ngDemo4_cms_api.Controllers
                 return Json("ok");
             }
         }
+
+        // DELETE api/pages/delete/{id}
+        [HttpDelete("delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            var page = _context.Pages.FirstOrDefault(p => p.ID != id);
+            _context.Remove(page);
+            _context.SaveChanges();
+
+            return Json("ok");
+        }
+
     }
 }
