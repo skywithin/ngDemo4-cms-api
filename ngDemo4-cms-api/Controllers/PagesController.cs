@@ -58,5 +58,43 @@ namespace ngDemo4_cms_api.Controllers
                 return Json("ok");
             }
         }
+
+        // GET api/pages/edit/{id}
+        [HttpGet("edit/{id}")]
+        public IActionResult Edit(int id)
+        {
+            Page page = _context.Pages.SingleOrDefault(p => p.ID == id);
+
+            if (page == null)
+            {
+                return Json("PageNotFound");
+            }
+            return Json(page);
+        }
+
+        // PUT api/pages/edit/{id}
+        [HttpPut("edit/{id}")]
+        public IActionResult Edit(int id, [FromBody] Page page)
+        {
+            page.Slug = page.Title.Replace(" ", "-").ToLower();
+            page.HasSidebar = page.HasSidebar ?? "no";
+
+            var existingPage = _context.Pages.FirstOrDefault(
+                p => 
+                    p.Slug == page.Slug && 
+                    p.ID != id);
+
+            if (existingPage != null)
+            {
+                return Json("pageExists");
+            }
+            else
+            {
+                _context.Update(page);
+                _context.SaveChanges();
+
+                return Json("ok");
+            }
+        }
     }
 }
