@@ -101,7 +101,7 @@ namespace ngDemo4_cms_api.Controllers
         [HttpDelete("delete/{id}")]
         public IActionResult Delete(int id)
         {
-            var page = _context.Pages.FirstOrDefault(p => p.ID != id);
+            var page = _context.Pages.FirstOrDefault(p => p.ID == id);
             _context.Remove(page);
             _context.SaveChanges();
 
